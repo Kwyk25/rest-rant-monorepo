@@ -1,30 +1,30 @@
-import { useState, useEffect } from "react"
-import { useHistory, useParams } from "react-router"
+import { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router";
 
 function SignUpForm() {
+  const history = useHistory();
 
-    const history = useHistory()
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
 
-    const [user, setUser] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: ''
-    })
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-    async function handleSubmit(e) {
-        e.preventDefault()
+    await fetch(`http://localhost:5000/users/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
 
-        await fetch(`http://localhost:3001/users/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        })
+    history.push(`/`);
+  }
 
-        history.push(`/`)
-    }
   return (
     <main>
       <h1>Sign Up</h1>
@@ -53,7 +53,6 @@ function SignUpForm() {
             />
           </div>
         </div>
-
         <div className="row">
           <div className="col-sm-6 form-group">
             <label htmlFor="email">Email</label>
@@ -80,7 +79,6 @@ function SignUpForm() {
             />
           </div>
         </div>
-
         <input className="btn btn-primary" type="submit" value="Sign Up" />
       </form>
     </main>
